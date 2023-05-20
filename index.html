@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>Online Shopping</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link
+         href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+         rel="stylesheet"
+         />
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
+      <style>
+         .item {
+         height: 100%;
+         /* border: 1px solid #000; */
+         border-radius: 5px;
+         padding-top: 12px;
+         padding-bottom: 12px;
+         transition: border 0.2s;
+         transition: box-shadow 0.2s;
+         transition: scale 0.2s;
+         }
+         .item:hover {
+         border: 1px solid #48ebc0;
+         box-shadow: 0 0 10px 5px #bde8ff;
+         scale: 1.05;
+         }
+         .padupbot {
+         padding-top: 10px;
+         padding-bottom: 10px;
+         }
+         .inactivepage{
+         display: none;
+         } .activepage{
+         display: block;
+         }
+      </style>
+   </head>
+   <body>
+      <div style="background-color: #333;" class="container-fluid p-4 text-white text-center">
+         <h1>SastaBazaar</h1>
+         <p>Unbeatable Prices, Infinite Choices!</p>
+      </div>
+      <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #555;">
+         <div class="container-fluid mt-1 mb-1">
+            <a class="navbar-brand" href="javascript:void(0)">SastaBazaar</a>
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar" control-id="ControlID-7" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse" id="mynavbar">
+               <ul class="navbar-nav me-auto">
+                  <li class="nav-item" style="margin-top:-12px;">
+                     <a class="nav-link active" id="homenav" onclick="javascript:navchange(0,this)">Home</a>
+                  </li>
+                  <li class="nav-item" style="margin-top:-12px;">
+                     <a class="nav-link" id="productnav" onclick="javascript:navchange(1,this)">Products</a>
+                  </li>
+                  <!-- <li class="nav-item" style="margin-top:-12px;">
+                     <a class="nav-link" href="javascript:void(0)">Cart</a>
+                     </li> -->
+                  <li class="nav-item" style="margin-top:-12px;">
+                     <a class="nav-link" id="contactnav" onclick="javascript:navchange(2,this)">Contact</a>
+                  </li>
+               </ul>
+               <div class=" input-group" style="width: 70%">
+                  <input type="text" class="form-control" placeholder="Enter product name">
+                  <button class="btn btn-primary" type="submit">Search</button>
+               </div>
+               <ul class="d-flex navbar-nav me-auto" style="align-items: right;">
+                  <li class=" nav-item" style="margin-top:-12px; float: right;">
+                     <a class="nav-link" id="cartnav" onclick="javascript:navchange(4,this)"><span id="cartnum">10</span><span class="iconify" data-icon="mdi-account"></span>Cart</a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </nav>
+      <div id="homepage" class="container mt-5 inactivepage">
+         <h2>Best Deals Today!!</h2>
+         <hr>
+         <div class="row row-eq-height" id="bestdeals">
+         </div>
+      </div>
+      </div>
+      <div id="products" class="container mt-5 inactivepage">
+         <h2>All Products:</h2>
+         <hr>
+         <div class="row row-eq-height" id="allprod">
+         </div>
+      </div>
+      </div>
+      <div id="contact" class="container mt-5 inactivepage">
+         <h2>Contact:</h2>
+         <hr>
+         <div class="row row-eq-height" id="contacts">
+            <div class="col-md-3 col-sm-2"></div>
+            <div class="was-validated col-md-6 col-sm-8 col-12">
+                <div class="mb-3 mt-3">
+                  <label for="uname" class="form-label">Email Address:</label>
+                  <input type="email" class="form-control" id="uname" placeholder="Enter a valid email address" name="uname" required>
+                </div>
+                <div class="mb-3">
+                  <label for="pwd" class="form-label">Name:</label>
+                  <input type="text" class="form-control" id="pwd" placeholder="Enter your name" name="pswd" required>
+                </div>
+                <div class="mb-3">
+                    <label for="txt" class="form-label">Your Message:</label>
+                    <textarea type="text" class="form-control" id="txt" placeholder="Enter your message" name="txt" required></textarea>
+                  </div>
+              <div class="row"><div class="col-sm-3 col-md-4"></div><div class="col-sm-6 col-md-4"><button style="width: 100%" id="subcon" onclick="submitcontact()" class="btn btn-primary">Submit</button></div></div>
+                </div>
+         </div>
+      </div>
+      </div>
+      <div id="productpage" class="container mt-5 inactivepage">
+         <h2>Product Details:</h2>
+         <hr>
+         <div class="row row-eq-height" id="productpage">
+            <div class="container row">
+               <div class="col-md-6"><img style="width: inherit;" id="productpageimg" class="mx-auto d-block"></div>
+               <div class="col-md-6">
+                  <h3 id="productpagename"></h3>
+                  <p><span id="productpagedisc" style="color: rgb(24, 155, 0)"></span><br><b id="productpagenp" style="
+                     font-size: xx-large;
+                     "></b>&nbsp;<strike id="productpageop"></strike><span id="productpagediscper" style="color: rgb(24, 155, 0)"></span></p>
+                  <p id="productpagedesc"></p>
+                  <form>
+                     Quantity: 
+                     <select id="qtysel" class="form-select">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                     </select>
+                  </form>
+                  <br>    
+                  <div><button type="button" id="prodcart" class="btn btn-primary" style="margin: auto;width: 40%" onclick="addtocart(1,1, this)">Add to Cart</button>&nbsp;&nbsp;&nbsp;<span style="width:5%"></span><button id="prodbuynow" type="button" style="width: 40%;margin: auto;" class="btn btn-success">Buy Now</button></div>
+               </div>
+            </div>
+         </div>
+      </div>
+      </div>
+      <div id="cart" class="container mt-5 inactivepage">
+         <h2>Cart:</h2>
+         <hr>
+         <p id="nocart">Sorry! You have nothing added to the cart.</p>
+         <div class="row row-eq-height" id="cartlist">
+         </div>
+         <div class="row row-eq-height">
+            <div class="col-12 padupbot">
+                <div class="container row">
+                    <div class="col-sm-4 col-md-6 col-xs-12"></div>
+                    <div class="col-sm-8 col-md-6 col-xs-12">
+                        <p>Subtotal:  <b style="float: right;" id="subtotal">₹00.00</b><br>Discount: <b style="float: right;" id="disc">₹00.00</b><br>Shipping Charges: <b style="float: right;" id="shipping">₹00.00</b><hr>Total: <b style="float: right;" id="totalamt">₹00.00</b></p>
+                    </div>
+
+                </div><div class="container row">
+                    <div class="col-sm-4 col-md-6 col-xs-12"></div>
+                    <div class="col-sm-8 col-md-6 col-xs-12">
+                        <button type="button" id="checkoutbtn" style="width: 100%;margin: auto;" onclick="changepage(5)" class="btn btn-success disabled">Proceed to Checkout</button>
+                    </div>
+
+                </div>
+            </div>
+         </div>
+        </div>
+      </div>
+      </div>
+      <div id="checkout" class="container mt-5 inactivepage">
+         <h2>Checkout:</h2>
+         <hr>
+         <div class="row row-eq-height" id="check">
+            <div class="col-md-3 col-sm-2"></div>
+            <div class="was-validated col-md-6 col-sm-8 col-12">
+                <div class="mb-3 mt-3">
+                    <label for="pwd" class="form-label">Name:</label>
+                    <input type="text" class="form-control" id="pwd" placeholder="Enter your name" name="pswd" required>
+                  </div>
+                  <div class="mb-3">
+                  <label for="uname" class="form-label">Email Address:</label>
+                  <input type="email" class="form-control" id="uname" placeholder="Enter a valid email address" name="uname" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number:</label>
+                    <input type="text" class="form-control" id="phone" placeholder="Enter your phone number" name="phone" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="txt" class="form-label">Address:</label>
+                    <textarea type="text" class="form-control" id="txt" placeholder="Enter full address" name="txt" required></textarea>
+                  </div>
+                  <div>
+                    <div class="form-check">
+                      <input type="radio" class="form-check-input" id="radio2" name="optradio" value="option2" disabled>
+                      <label class="form-check-label" for="radio2">UPI / NetBanking / Debit Card / Credit Card / Wallet (Temporarily Unoperational)</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="radio" class="form-check-input" checked>
+                      <label class="form-check-label">Cash on Delivery</label>
+                    </div>
+                </div>
+              <div class="row"><div class="col-sm-3 col-md-4"></div><div class="col-sm-6 col-md-4"><button style="width: 100%" id="subcon" type="submit" onclick="submitcheckout()" class="btn btn-success">Complete Order</button></div></div>
+                </div>
+         </div>
+      </div>
+      </div>
+      <div id="orderpage" class="container mt-5 inactivepage">
+         <h2>Order Placed:</h2>
+         <hr>
+         <div class="row row-eq-height" style="text-align: center;" id="ordered">
+            <span class="iconify" data-icon="mdi-progress-check" style="color: rgb(24, 155, 0); font-size: 100px;"></span>
+            <h4>Your order has been placed successfully.</h4>
+            <p>An invoice will be sent to your Email Address</p>
+            <p id="orderid">Order Id: </p>
+            <br>
+            <h5>Happy Shopping!!</h5><br><br>
+            <hr>
+            <div class="row"><div class="col-md-5 col-sm-4"></div><div class="col-md-2 col-sm-4"><button style="width: 100%" id="subcon" type="submit" onclick="gotohome()" class="btn btn-success">Go to Home</button></div></div>
+         </div>
+      </div>
+      <footer class="mt-auto p-4 footer bg-dark text-white text-center">
+        <p>Footer</p>
+      </footer>
+      </div>
+      <script>
+         var cart = [];
+         const cartnum = document.getElementById("cartnum");
+         const items = [
+           {
+             name: 'HP v236w',
+             desc: 'HP v236w 32GB USB 2.0 Pen Drive, Grey',
+             img: 'product1.jpg',
+             op: 849,
+             np: 649 ,
+           },
+           {
+             name: 'Fire-Boltt Gladiator',
+             desc: 'Fire-Boltt Gladiator 1.96" Biggest Display Smart Watch with Bluetooth Calling, Voice Assistant &123 Sports Modes, 8 Unique UI Interactions, SpO2, 24/7 Heart Rate Tracking (Black)',
+             img: 'product3.jpg',
+             op: 2499,
+             np: 1399,
+           },
+           {
+             name: 'boAt Rockerz 370',
+             desc: 'boAt Rockerz 370 On Ear Bluetooth Headphones with Upto 12 Hours Playtime, Cozy Padded Earcups and Bluetooth v5.0, with Mic (Buoyant Black)',
+             img: 'product2.jpg',
+             op: 1299,
+             np: 899,
+           }, {
+             name: 'HP v236w',
+             desc: 'HP v236w 32GB USB 2.0 Pen Drive, Grey',
+             img: 'product2.jpg',
+             op: 890,
+             np: 649 ,
+           },
+           {
+             name: 'Fire-Boltt Gladiator',
+             desc: 'Fire-Boltt Gladiator 1.96" Biggest Display Smart Watch with Bluetooth Calling, Voice Assistant &123 Sports Modes, 8 Unique UI Interactions, SpO2, 24/7 Heart Rate Tracking (Black)',
+             img: 'product2.jpg',
+             op: 1401,
+             np: 1399,
+           },
+           {
+             name: 'boAt Rockerz 370',
+             desc: 'boAt Rockerz 370 On Ear Bluetooth Headphones with Upto 12 Hours Playtime, Cozy Padded Earcups and Bluetooth v5.0, with Mic (Buoyant Black)',
+             img: 'product2.jpg',
+             op: 1599,
+             np: 899,
+           }
+         ];
+         
+         updateCartNum = () => {
+           cartnum.innerHTML = cart.length;
+         }
+         addtocart = (i, qt, el) => {
+            document.getElementById("nocart").classList.add("inactivepage");
+            qt = parseInt(document.getElementById("qtysel").value);
+            el.innerHTML = "Added";
+            el.classList.add("disabled");
+           el = document.getElementById("addtocartbut"+i);
+           el.innerHTML = "Added";
+           var check = (cart.findIndex((ele) => ele.id == i));
+           console.log(check,i);
+           if(check != -1){
+               cart[check].qty += qt;
+               document.getElementById("cartqty"+i).innerHTML = cart[check].qty;
+               document.getElementById("cartamt"+i).innerHTML = "₹"+(items[i].np * cart[check].qty)+".00";
+           } else {
+           cart.push({id: i, qty: qt});
+           document.getElementById('cartlist').appendChild(createcartitem(items[i], qt, i));
+           }
+           el.classList.add("disabled");
+           var cartbutton = document.getElementById("addtocartbutton"+i);
+           if(cartbutton) {cartbutton.innerHTML = "Added";
+           cartbutton.classList.add("disabled");}
+           console.log(el);
+           updateCartNum();
+           document.getElementById("qtysel").value = 1;
+           document.getElementById("checkoutbtn").classList.remove("disabled");
+         }
+         
+         deletecartui = (id) => {
+            
+           
+           document.getElementById("cartid"+id).remove();
+           
+           var cartbut = document.getElementById("addtocartbut"+id);
+           cartbut.innerHTML = "Add to Cart";
+           cartbut.classList.remove("disabled");
+           var cartbutton = document.getElementById("addtocartbutton"+id);
+           if(cartbutton) {cartbutton.innerHTML = "Add to Cart";
+           cartbutton.classList.remove("disabled");}
+           if(cart.length == 0){ document.getElementById("nocart").classList.remove("inactivepage"); document.getElementById("checkoutbtn").classList.add("disabled"); }
+         }
+
+         deletefromcart = (id) => {
+            var check = (cart.findIndex((ele) => ele.id == id));
+            console.log("call", id);
+            cart.splice(check,1);
+           deletecartui(id);
+           
+           updateCartNum();
+           updateCartVal();
+         }
+         
+         createcard = (el, id ,addtocartid) => {
+           var div = document.createElement('div');
+           div.className = 'col-md-4 padupbot';
+           div.innerHTML =
+             '<div class="container item"><div style="cursor: pointer" onclick="gotoproduct('+addtocartid+')"><h3 style="text-align: center">' +
+             el.name +
+             '</h3><img width="150px" src="./' +
+             el.img +
+             '" class="mx-auto d-block" /><br /><p>Price: <strike>₹' +
+             el.op +
+             '.00</strike> <b>₹' +
+             el.np +
+             '.00</b><span style="color: rgb(24, 155, 0)"> ( ' +
+             el.disc +
+             '% Off )</span></p><p>' + el.desc +
+             '</p></div><div style="text-align:center;"><button type="button" id="addtocartbut'+((id==0)?'ton':'')+addtocartid+'" class="btn btn-primary" style="margin: auto;width: 40%" onclick="addtocart('+addtocartid+',1, this)">Add to Cart</button>&nbsp;&nbsp;&nbsp;<span style="width:5%"></span><button type="button" style="width: 40%;margin: auto;" class="btn btn-success" onclick="buynow('+addtocartid+')">Buy Now</button></div></div>';
+           return div;        
+         }
+         
+         createcartitem = (el,qty,cartid) => {
+           var div = document.createElement('div');
+           div.className = 'col-12 padupbot';
+           div.id = "cartid"+cartid;
+           div.innerHTML =
+             '<div class="container row"><div class="col-3"><img width="150px" src="./'+el.img+'" class="mx-auto d-block"></div><div class="col-7"><h4>'+el.name+'</h4><p>Price:  <b>₹'+el.np+'.00</b><br>Quantity: <b id=cartqty'+cartid+'>'+qty+'</b></p><p>Amount:  <b id=cartamt'+cartid+'>₹'+(el.np * qty)+'.00</b></p></div><div class="col-2"><button type="button" class="btn btn-danger" style="width: 100%;" onclick="deletefromcart('+cartid+')">Delete Item</button></div></div><hr>';
+           return div;   
+         }
+         
+         items.forEach(function (el, id) {items[id].disc = Math.round(((el.op - el.np) / el.op) * 100);});
+         var a = 0; var b = 1; var c = 2;
+         items.forEach(function (el, id) {
+           if(el.disc > items[a].disc){
+               c = b; b = a; a = id;
+           } else if (el.disc > items[b].disc) {
+               c = b; b = id;
+           } else if (el.disc > items[c].disc) {
+               c = id;
+           } 
+         });
+         bestdeals = [items[a],items[b],items[c]];
+         deals=[a,b,c];
+         
+         bestdeals.forEach(function (el, id) {
+           document.getElementById('bestdeals').appendChild(createcard(el, 0, deals[id]));
+         });
+         
+         items.forEach(function (el, id) {
+           document.getElementById('allprod').appendChild(createcard(el, 1 ,id));
+         });
+         
+         updateCartNum();
+         
+         const pages = [
+         document.getElementById("homepage"), //   0 - homepage
+         document.getElementById("products"),//   1 - products
+         document.getElementById("contact"),//   2 - contact
+         document.getElementById("productpage"),//   3 - productpage
+         document.getElementById("cart"),//   4 - cart
+         document.getElementById("checkout"),//   5 - checkout
+         document.getElementById("orderpage"),//   6 - orderpage
+         //   7 - 
+         ];
+         var curpage = 0;
+         changepage = (pageid) => {
+           pages[curpage].classList.remove("activepage");
+           pages[curpage].classList.add("inactivepage");
+           //add switch casse
+           if(pageid == 4) updateCartVal();
+           if(pageid == 6) {
+            document.getElementById("orderid").innerHTML = "Order Id: " + ((Math.random() + 1).toString(36).substring(7));
+            for (let i = cart.length-1; i > -1; i--) {
+                var id = cart[i].id;cart.pop();
+  deletecartui(id);
+}
+updateCartNum();
+updateCartVal();
+           }
+           pages[pageid].classList.remove("inactivepage");
+           pages[pageid].classList.add("activepage");
+           curpage = pageid;
+         }  
+
+         updateCartVal = () => {
+            var total = 0; var sub = 0; var disc = 0; var ship = 0;
+            cart.forEach(item => {
+                sub += items[item.id].op;
+                total += items[item.id].np;
+            });
+            disc = sub - total;
+            if(cart.length != 0) 
+                ship = 50;
+            total += ship;
+            document.getElementById("totalamt").innerHTML = "₹"+total+".00";
+            document.getElementById("shipping").innerHTML = "₹"+ship+".00";
+            document.getElementById("disc").innerHTML = "₹"+disc+".00";
+            document.getElementById("subtotal").innerHTML = "₹"+sub+".00";
+         }
+         
+         gotoproduct = (id) => {
+           changepage(3);
+           console.log(id);
+           document.getElementById("productpagename").innerHTML = items[id].name;
+           document.getElementById("productpageop").innerHTML = '₹' + items[id].op + '.00';
+           document.getElementById("productpagenp").innerHTML = '₹' + items[id].np + '.00';
+           document.getElementById("productpagediscper").innerHTML = ' ( ' + items[id].op + '% Off )';
+           document.getElementById("productpagedesc").innerHTML = items[id].desc;
+           document.getElementById("productpageimg").src = items[id].img;
+           document.getElementById("productpagedisc").innerHTML = '₹'+(items[id].op-items[id].np)+'.00 off';
+           document.getElementById("prodcart").setAttribute("onclick", "addtocart("+id+",1,this)");
+           document.getElementById("prodcart").buynow("onclick", "buynow("+id+")");
+           document.getElementById("prodcart").innerHTML = "Add to Cart";
+           document.getElementById("prodcart").classList.remove("disabled");
+         }
+         
+         submitcontact = () => {
+            const subbut = document.getElementById("subcon");
+            subbut.classList.add("disabled");
+            document.getElementById("uname").setAttribute("disabled","disabled");
+            document.getElementById("pwd").setAttribute("disabled","disabled");
+            document.getElementById("txt").setAttribute("disabled","disabled");
+            subbut.innerHTML = "Submitted";
+         }
+
+         submitcheckout = () => {
+            changepage(6);
+         }
+
+         navchange = (id, el) => {
+           document.getElementById("homenav").classList.remove("active");
+           document.getElementById("productnav").classList.remove("active");
+           document.getElementById("contactnav").classList.remove("active");
+           document.getElementById("cartnav").classList.remove("active");
+           //remove all actives
+           changepage(id);
+           console.log(el);
+           el.classList.add("active");
+         }
+         
+         gotohome = () => {
+            navchange(0, document.getElementById("homenav"));
+         }
+
+        buynow = (id) => {
+            for (let i = cart.length-1; i > -1; i--) {
+                var ids = cart[i].id;cart.pop();
+  deletecartui(ids);
+}
+
+           addtocart(id,1,document.getElementById("addtocartbut"+id));
+           updateCartNum();
+updateCartVal();
+changepage(5);
+        }
+
+         changepage(0,0);
+         
+      </script>
+   </body>
+</html>
